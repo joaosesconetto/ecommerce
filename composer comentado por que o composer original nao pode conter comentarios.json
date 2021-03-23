@@ -1,0 +1,31 @@
+{
+// hcodebr é o nome do vendor
+// Na verdade, o diretório vendor está relacionado a aplicações desenvolvido por terceiros que
+// compõem os requisitos da sua aplicação. ... Em projetos PHP esse diretório é bastante comum
+// pois é o diretório em que o Composer, gerenciador de dependências em PHP, utiliza para organizar
+// os códigos de terceiros
+// Posteriormente quando este projeto for lá para o git, tenho que substituir o nome "hcodebr" pelo 
+// nome do meu usuário lá do github. E ecommerce é o nome do meu projeto.
+    "name": "hcodebr/ecommerce",
+    "authors": [
+        {
+            "name": "Hcode Treinamentos",
+            "email": "suporte@hcode.com.br"
+        }
+    ],
+    // require são as denpendências que o meu ecommerce terá.
+    "require": {
+    	// para manipulação de email's 
+        "phpmailer/phpmailer":"5.2.22",
+        // para definir a parte de rotas
+    	"slim/slim":"2.0",
+        // raintpl é a parte de templates
+    	"rain/raintpl":"3.0.0"
+    },
+    // abaixo são as denpendências que nós criaremos para o nosso projeto
+    "autoload": {
+        "psr-4": {
+            "": "vendor\\hcodebr\\php-classes\\src"
+        }
+    }
+}
