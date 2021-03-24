@@ -22,7 +22,9 @@
         // raintpl é a parte de templates
     	"rain/raintpl":"3.0.0"
     },
-    // abaixo são as denpendências que nós criaremos para o nosso projeto
+    // abaixo são as denpendências, as nossas proprias classes que nós criaremos para o nosso projeto. 
+    // Essas nossas classes serão colocadas dentro da pasta hcodebr lá dentro da pasta vendor. Parece
+    // que o nome da pasta onde estão as nossas classes mudou, agora chama-se src.
     "autoload": {
         "psr-4": {
             "": "vendor\\hcodebr\\php-classes\\src"
