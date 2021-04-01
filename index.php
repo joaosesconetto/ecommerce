@@ -12,6 +12,7 @@ use \Hcode\page;
 use \Hcode\PageAdmin;
 // abaixo criamos um namespace só para os nossos Model e vamos dizer aqui que usaremos a nossa class User.
 use \Hcode\Model\User;
+use \Hcode\Model\Category;
 
 // app é uma variável à qual vamos definir cada uma das rotas
 $app = new Slim();
@@ -273,7 +274,7 @@ $app->get("/admin/forgot/sent", function(){
 // A rota abaixo /admin/forgot/reset ela é enchergada por que também na declaração "use \Hcode\PageAdmin;" que esta dentro do nosso vendor: "C:\ecommerce\vendor\hcodebr\php-classes\src" declarado no composer.json. consta a seguinte declaração: "public function __construct($opts = array(), $tpl_dir = "/views/admin/") onde consta o nosso arquivo forgot "
 $app->get("/admin/forgot/reset", function() {
 	// temos que saber à quem pertence este código que alguem esta tentando recuperar...
-	// vamos buscar o metódo estático que criaremos em seguinda à declaração desta chamada aqui lá na classe User.php para válidar este código.
+	// vamos buscar o metódo estático que criaremos em seguinda à declaração desta chamada aqui, lá na classe User.php para válidar este código.
 	// $_GET["code"] é o código que esta vindo via get lá do arquivo forgot-reset.html
 	$user = User::validForgotDecrypt($_GET["code"]);
 
@@ -298,7 +299,7 @@ $app->post("/admin/forgot/reset", function(){
 	$forgot = User::validForgotDecrypt($_POST["code"]);
 
 	// Agora vamos criar um método estático para confirmar no banco de dados que esta senha já foi utilizada e que não poderá ser utilizada mais uma vez, nem se for no período de uma hora como é a nossa regra de reinicialização de senha.
-	// oberser que dentro da variável $user temos um array retornado da função de validação acima. Dentro deste array temos uma chave com o idrecovery que estamos passando abaxo para o método estático setForgotUsed.
+	// oberser que dentro da variável $user temos um array retornado da função de validação acima. Dentro deste array temos uma chave com o idrecovery que estamos passando abaixo para o método estático setForgotUsed.
 	User::setForgotUsed($forgot["idrecovery"]);
 
 	$user = new User();
@@ -311,6 +312,7 @@ $app->post("/admin/forgot/reset", function(){
 	// primeiro parâmetro é a senha
 	// segundo parâmetro é o modo da criptografia. O mode de criptrografia "PASSWORD_BCRYPT" é o mode default por isso colocamos a constante "PASSWORD_DEFAULT"
 	// terceiro o o cost => 12 por exemplo que é o nível de segurança para geração da senha. quanto mais auto mais segura, mas temos que tomar cuidado, pois um número muito alto, pode travar o nosso sistema se muitos usuários estiverem solicitando senha ao mesmo tempo. 12 é um númro bom de segurança.
+	// $2y$12$MqsYSphTbNqGcaBZhtHvEuxaTkzVn3n12uszoK6MACXINN.K6sHpq
 	$password = password_hash($_POST["password"], PASSWORD_DEFAULT, ["cost"=>12]);
 
 	// Abaixo criamos um método setPassword que vai gerar um rash e gravar no banco de dados.
@@ -330,6 +332,98 @@ $app->post("/admin/forgot/reset", function(){
 	$page->setTpl("forgot-reset-success");
 
 });
+
+// A difereça de uma rota pra outra rota é só o metódo. Se for acessado via get ele vai responder com html. Se for acessado via post ele vai responder com insert, ele espera receber estes dados via post e enviar para o banco de dados e salvar estes registros.
+$app->get("/admin/categories", function(){
+
+	User::verifyLogin();
+
+	$categories = Category::listAll();
+
+	$page = new PageAdmin();	
+
+	$page->setTpl("categories", [
+		'categories'=>$categories
+	]);
+});
+
+// abaixo carregamos o arquivo html categories-create.html, que cria o item de menu categories.
+$app->get("/admin/categories/create", function(){
+
+	User::verifyLogin();
+
+	$page = new PageAdmin();	
+
+	$page->setTpl("categories-create");
+});
+
+// Cadastra a categoria
+$app->post("/admin/categories/create", function(){
+
+	User::verifyLogin();
+
+	$category = new Category();	
+
+	$category->setData($_POST);
+
+	$category->save();
+
+	header("Location: /admin/categories");
+	exit;
+});
+
+// Rota para exclusão do registro de categorias
+$app->get("/admin/categories/:idcategory/delete", function($idcategory){
+
+	User::verifyLogin();
+
+	$category = new Category();
+
+// Criando o método get para carrega o registro para ter certeza que ele ainda existe. 
+	$category->get((int)$idcategory);
+// Criando o método delete que ainda também vamos criar.
+	$category->delete();
+// redireciona para tela de categorias
+	header("Location: /admin/categories");
+	exit;
+});
+
+// Rota para alteração do registro de categorias - 1ª parte
+// No caso da alteração do registro, será chamado uma view, uma tela. Por isso utilizamos o setTPL - template
+$app->get("/admin/categories/:idcategory", function($idcategory){
+
+	User::verifyLogin();
+
+	$category = new Category();
+// temos que converter o $idcategory pra int, por que este idcategory esta vindo da URL, pois foi escolhido um registro para ser deletado pelo usuário. E tudo que vem via URL vem como string.
+	$category->get((int)$idcategory);
+
+	$page = new PageAdmin();	
+
+	$page->setTpl("categories-update", [
+		'category'=>$category->getValues()
+	]);
+});
+
+// Rota para alteração do registro de categorias - 2ª parte
+// No caso da alteração do registro, será chamado uma view, uma tela. Por isso utilizamos o setTPL - template
+$app->post("/admin/categories/:idcategory", function($idcategory){
+
+	User::verifyLogin();
+
+	$category = new Category();
+// temos que converter o $idcategory pra int, por que este idcategory esta vindo da URL, pois foi escolhido um registro para ser deletado pelo usuário. E tudo que vem via URL vem como string.
+	$category->get((int)$idcategory);
+
+	// abaixo eu pego os dados que vem do formulário, pois os campos do meu formulário são exatamentes como é os do meu banco de dados, por isso que eu consigo passar direto para setData, estes campos do meu post $_POST.
+	$category->setData($_POST);
+
+	$category->save();
+
+	header("Location: /admin/categories");
+	exit;
+});
+
 
 $app->run();
 
