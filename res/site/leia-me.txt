@@ -1,0 +1,7 @@
+Esta pasta foi denominada "site" onde estarão guardados todos os nossos recursos, dos nossos templates.
+
+Que são: arquivos de estilos que são os css
+	 arquivos de javascript - js
+	 arquivos de imagem
+	 arquivos de fontes
+	 E qualquer arquivo de recurso de fronte-end que forem necessários	

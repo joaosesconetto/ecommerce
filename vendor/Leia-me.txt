@@ -1,0 +1,11 @@
+O arquivo composer dump-autoload desta pasta veio junto com o arquivo do projeto hcodebr, segundo o professor
+não precisamos nos preocupar com esta pasta, não há nada a fazer com ela. Não explicou mais detalhes, só
+disse isso. Tanto é que no projeto dele, este arquivo não foi nem copiado para esta pasta aqui. Mas eu copiei
+para não ficar dúvidas, de porque este arquivo teria ficado para trás nas pasta original da aula 102.
+
+Para fazer o compuser entender que criamos esta pasta do hcodebr aqui dentro, fizemos os comandos básicos lá
+no Git Bash Here conforme esta documentado no nosso arquivo leiam-me.word na pasta "C:\Projeto PHP" onde
+estou anotando todas as configurações. 
+
+
+
