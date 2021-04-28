@@ -151,21 +151,26 @@ class Product extends Model {
 
 		}
 
-		$dist = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 
+		// $dist = $_SERVER['DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . 
+		$dist = "c:\\ecommerce" . DIRECTORY_SEPARATOR . 
 			"res" . DIRECTORY_SEPARATOR . 
 			"site" . DIRECTORY_SEPARATOR .
 			"img" . DIRECTORY_SEPARATOR . 
 			"products" . DIRECTORY_SEPARATOR .
 			$this->getidproduct() . ".jpg";
+		//aqui...
+		var_dump($dist);
 
 		// transforma qualquer tipo de imagem testada acima para jpg ou jpeg como queira
-		// $image é a imagem que peguei do temporário sem ponto e $dist é o destino onde eu quero jogar esta imagem.
+		// $imagem é a imagem que peguei do temporário sem ponto e $dist é o destino onde eu quero jogar esta imagem.
+
 		imagejpeg($image, $dist);
 
 		// destroi a imagem na area do temporário
 		imagedestroy($image);
 
 		$this->checkPhoto();
+
 	}
 
 	public function getFromURL($desurl)

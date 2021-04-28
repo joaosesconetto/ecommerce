@@ -372,23 +372,20 @@ $app->post("/checkout", function(){
     ]);
 
     $order->save();
-    // neste momento pegamos o código do ID Order do pedido que esta na tela.
-    header("Location: /order/".$order->getidorder()."/pagseguro");
-    exit();
+   
+    switch ((int)$_POST['payment-method']) {
 
- //    switch ((int)$_POST['payment-method']) {
+		case 1:
+		header("Location: /order/".$order->getidorder()."/pagseguro");
+		break;
 
-	// 	case 1:
-	// 	header("Location: /order/".$order->getidorder()."/pagseguro");
-	// 	break;
+		case 2:
+		header("Location: /order/".$order->getidorder()."/paypal");
+		break;
 
-	// 	case 2:
-	// 	header("Location: /order/".$order->getidorder()."/paypal");
-	// 	break;
+	}
 
-	// }
-
-	// exit;
+	exit;
    
 });
 
