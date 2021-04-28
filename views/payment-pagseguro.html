@@ -1,0 +1,42 @@
+<form method="post" action="https://pagseguro.uol.com.br/v2/checkout/payment.html">  
+          
+        <!-- Campos obrigatórios -->  
+        <input name="receiverEmail" type="hidden" value="jsesconetto@gmail.com">  
+        <input name="currency" type="hidden" value="BRL">  
+        
+        {loop="$products"} <!-- O rantpl quando utiliza-se o loop ele cria uma váriavel que seria o índice. No caso aqui esta variável chama-se counter, então a cada produtos listados, incrementamos esta váriavel em mais 1 (um) -->
+        <input name="itemId{$counter+1}" type="hidden" value="{$value.idproduct}">  
+        <input name="itemDescription{$counter+1}" type="hidden" value="{$value.desproduct}">  
+        <input name="itemAmount{$counter+1}" type="hidden" value="{$value.vltotal}">  
+        <input name="itemQuantity{$counter+1}" type="hidden" value="{$value.nrqtd}">  
+        <input name="itemWeight{$counter+1}" type="hidden" value="{$value.vlweight*1000}"> <!-- a multiplicação por 1000 é para transformar o valor do produto que esta em dicimal para inteiro --> 
+        {/loop}
+
+        <input name="reference" type="hidden" value="{$order.idorder}"> <!-- o idorder é o nº do pedido que será identificado no pagseguro da nossa venda -->
+          
+        <!-- Informações de frete (opcionais) -->  
+        <input name="shippingType" type="hidden" value="1">
+        <input name="shippingAddressPostalCode" type="hidden" value="{$order.deszipcode}"> <!-- Tipo do frete --> 
+        <input name="shippingAddressStreet" type="hidden" value="{function="utf8_encode($order.desaddress)"}"> <!-- End.--> 
+        <input name="shippingAddressNumber" type="hidden" value="{function="utf8_encode($order.desnumber)"}">  <!-- Nº -->
+        <input name="shippingAddressComplement" type="hidden" value="{function="utf8_encode($order.descomplement)"}"> <!-- Complemento --> 
+        <input name="shippingAddressDistrict" type="hidden" value="{function="utf8_encode($order.desdistrict)"}"> 
+        <input name="shippingAddressCity" type="hidden" value="{function="utf8_encode($order.descity)"}">
+        <input name="shippingAddressState" type="hidden" value="{function="utf8_encode($order.desstate)"}"> 
+        <input name="shippingAddressCountry" type="hidden" value="{function="utf8_encode($order.descountry)"}">  
+  
+        <!-- Dados do comprador (opcionais) -->  
+        <input name="senderName" type="hidden" value="{function="utf8_encode($order.desperson)"}">  
+        <input name="senderAreaCode" type="hidden" value="{$phone.areaCode}">  
+        <input name="senderPhone" type="hidden" value="{$phone.number}">  
+
+        <input name="senderEmail" type="hidden" value="{$order.desemail}">  
+
+<!-- Como esta abaixo, o usuário teria que clicar num logo do pagseguro para ir para o pagseguro. Então fizemos as linhas abaixo para ir diretor para o pagseguro -->
+        <!-- <input alt="Pague com PagSeguro" name="submit" type="image"
+src="https://p.simg.uol.com.br/out/pagseguro/i/botoes/pagamentos/120x53-pagar.gif"/>      -->
+
+</form>  
+<script type="text/javascript">
+document.forms[0].submit();
+</script>
