@@ -287,6 +287,7 @@ $app->get("/checkout", function(){
     
     // verifica se os campos estão vazios, caso esteja, limpa os campos, neste caso podemos manter o get como definido.
     if(!$address->getdesaddress()) $address->setdesaddress('');
+    if(!$address->getdesnumber()) $address->setdesnumber('');
     if(!$address->getdescomplement()) $address->setdescomplement('');
     if(!$address->getdesdistrict()) $address->setdesdistrict('');
     if(!$address->getdescity()) $address->setdescity('');

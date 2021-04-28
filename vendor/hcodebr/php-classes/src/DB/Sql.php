@@ -4,12 +4,19 @@ namespace Hcode\DB;
 
 class Sql {
 
-	const HOSTNAME = "127.0.0.1";
-	const USERNAME = "root";
-	// No meu banco não coloquei senha
-	const PASSWORD = "";
-	const DBNAME = "db_ecommerce";
+	// As constantes de conexão do BD abaixo foram utilizadas até a criação do BD no HostGator.
+	// const HOSTNAME = "127.0.0.1";
+	// const USERNAME = "root";
+	// // No meu banco não coloquei senha
+	// const PASSWORD = "";
+	// const DBNAME = "db_ecommerce";
 
+	const HOSTNAME = "108.167.132.228";
+	const USERNAME = "clas4319_user";
+	// No meu banco não coloquei senha
+	const PASSWORD = "WVB9K&mJ]%Du";
+	const DBNAME = "clas4319_db";
+	
 	private $conn;
 
 	public function __construct()
