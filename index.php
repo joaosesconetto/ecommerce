@@ -3,6 +3,10 @@
 
 // verificamos se a sessão foi iniciada.
 session_start();
+
+// $versaoPHP = phpversion () . "<br>";
+// echo $versaoPHP;
+
 // o nome do nosso vendor esta no arquivo composer.json: "name": "hcodebr/ecommerce"
 // Veja neste arquivo composer.json todas as rotas que são carregadas automaticamente.
 require_once("vendor/autoload.php");

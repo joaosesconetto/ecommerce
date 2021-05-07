@@ -1,0 +1,3 @@
+Veja todo o histórico de anotações do curso PHP7 que anotei no arquivo Leia-me.docx na pasta:
+
+	C:\Projeto PHP
